@@ -1,0 +1,21 @@
+{
+  "name": "todoserver",
+  "version": "1.0.0",
+  "description": "todo server",
+  "main": "app.js",
+  "scripts": {
+    "test": "supertest"
+  },
+  "keywords": [
+    "todo",
+    "server",
+    "javascript"
+  ],
+  "author": "andrea ardenti <andrea.ardenti@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "supertest": "^3.3.0",
+    "todolistandreaardenti": "^1.0.4"
+  }
+}
