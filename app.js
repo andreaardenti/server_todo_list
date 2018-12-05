@@ -12,6 +12,10 @@ app.get('/', function(req, res) {
     res.json({message: 'Benvenuto nel Server ToDo!'})
 })
 
+todo.addToDo('Spesa', 'olio, pane', 'andrea');
+todo.addToDo('Meccanico', 'olio, pane', 'andrea');
+todo.addToDo('Fioraio', 'rose, calendule', 'andrea');
+
 //------------POST------------
 //inserisco un nuovo elemento nell'elenco
 app.post('/todo', function(req, res) {
@@ -38,8 +42,8 @@ app.put('/todo/:index', function(req,res) {
 
 //mostra tutti i todo o filtrati per utente
 app.get('/todo', function(req, res) {
-    if (req.query.assignedTo) {
-        res.json(todo.findToDoByName(req.query.assignedTo))
+    if (req.query.assignedTo != undefined) {
+        return res.json(todo.findToDoByName(req.query.assignedTo))
     } else {
         res.json(todo.showToDo());
     }
@@ -51,9 +55,8 @@ app.get('/users', function(req, res) {
 })
 
 //mostra per stato
-app.get('/state/:state', function(req, res) {
-    let state = req.param.assignedTo;
-    res.json(todo.findToDoByState(state));
+app.get('/state', function(req, res) {
+    res.json(todo.findToDoByState(req.query.assignedTo));
 })
 
 //cancella un todo
