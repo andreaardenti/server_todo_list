@@ -14,20 +14,13 @@ app.get('/', function(req, res) {
 
 todo.addToDo('Spesa', 'olio, pane', 'andrea');
 todo.addToDo('Meccanico', 'olio, pane', 'andrea');
-<<<<<<< HEAD
 todo.addToDo('Fioraio', 'rose, calendule', 'piero');
 
 //-------------------------------------POST-------------------------------------
-=======
-todo.addToDo('Fioraio', 'rose, calendule', 'andrea');
-
-//------------POST------------
->>>>>>> 17646ec055b914a4f4ee941975cdac02f71f6184
 //inserisco un nuovo elemento nell'elenco
 app.post('/addTodo', function(req, res) {
 
     todo.addToDo(req.body.name, req.body.description, req.body.assignedTo);
-
     res.status(201).json({"message": todo.showToDo()});
 
 });
@@ -57,15 +50,10 @@ app.get('/users', function(req, res) {
 //mostra per stato
 app.get('/state', function(req, res) {
     res.json(todo.findToDoByState(req.query.assignedTo));
-<<<<<<< HEAD
 });
-=======
-})
->>>>>>> 17646ec055b914a4f4ee941975cdac02f71f6184
 
 //-------------------------------------DELETE-------------------------------------
 //cancella un todo
-<<<<<<< HEAD
 app.delete('/delete/:id', function(req, res) {
     id = parseInt(req.params.id);
     if (todo.deleteToDo(id)) {
@@ -75,9 +63,3 @@ app.delete('/delete/:id', function(req, res) {
         return res.status(404).json({message: "sorry, item already deleted!"});
     }
 });
-=======
-app.delete('/delete/:index', function(req, res) {
-    let id = parseInt(req.params.id);
-    res.json(todo.deleteToDo(id));
-})
->>>>>>> 17646ec055b914a4f4ee941975cdac02f71f6184
