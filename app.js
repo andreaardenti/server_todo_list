@@ -10,36 +10,30 @@ app.listen(3001);
 
 app.get('/', function(req, res) {
     res.json({message: 'Benvenuto nel Server ToDo!'})
-})
+});
 
 todo.addToDo('Spesa', 'olio, pane', 'andrea');
 todo.addToDo('Meccanico', 'olio, pane', 'andrea');
-todo.addToDo('Fioraio', 'rose, calendule', 'andrea');
+todo.addToDo('Fioraio', 'rose, calendule', 'piero');
 
-//------------POST------------
+//-------------------------------------POST-------------------------------------
 //inserisco un nuovo elemento nell'elenco
-app.post('/todo', function(req, res) {
-    
-    var i = req.body.name;
-    var j = req.body.description;
-    var x = req.body.assignedTo;
+app.post('/addTodo', function(req, res) {
 
-    console.log("req.body.name: ", i);
-    console.log("req.body.description: ", j);
-    console.log("req.body.assignedTo: ", x);
+    todo.addToDo(req.body.name, req.body.description, req.body.assignedTo);
 
-    todo.addToDo(i, j, x);
-    
-    res.status(201).json({message: 'User inserito!'});
-})
+    res.status(201).json({"message": todo.showToDo()});
 
+});
+
+//-------------------------------------PUT-------------------------------------
 //modifica uno stato di un todo
-app.put('/todo/:index', function(req,res) {
-    //var i = parseInt(req.params.index, req.param.state);
-    todo.changeToDoState(parseInt(req.params.index, req.param.state));
-    res.json();
-})
+app.put('/change', function(req,res) {
+    todo.changeToDoState(req.body.id, req.body.completed);
+    res.status(201).json({"status": todo.findToDoByState(req.body.completed)});
+});
 
+//-------------------------------------GET-------------------------------------
 //mostra tutti i todo o filtrati per utente
 app.get('/todo', function(req, res) {
     if (req.query.assignedTo != undefined) {
@@ -47,20 +41,26 @@ app.get('/todo', function(req, res) {
     } else {
         res.json(todo.showToDo());
     }
-})
+});
 
 //mostra tutti gli user
 app.get('/users', function(req, res) {
     res.json(todo.showAllUsers());
-})
+});
 
 //mostra per stato
 app.get('/state', function(req, res) {
     res.json(todo.findToDoByState(req.query.assignedTo));
-})
+});
 
+//-------------------------------------DELETE-------------------------------------
 //cancella un todo
-app.delete('/delete/:index', function(req, res) {
-    let id = parseInt(req.params.id);
-    res.json(todo.deleteToDo(id));
-})
+app.delete('/delete/:id', function(req, res) {
+    id = parseInt(req.params.id);
+    if (todo.deleteToDo(id)) {
+        return res.status(200).json({message: "element with id: " + id + " deleted!"});
+    }
+    else {
+        return res.status(404).json({message: "sorry, item already deleted!"});
+    }
+});
